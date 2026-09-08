@@ -4,8 +4,16 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#8d4f62">
-  <meta name="description" content="봉투를 열어 마음을 전하는 서프라이즈 편지">
-  <title>비밀 우체통 · 서프라이즈 편지</title>
+  <meta name="description" content="도착한 비밀편지 열어보기">
+  <meta property="og:title" content="도착한 비밀편지 열어보기">
+  <meta property="og:description" content="도착한 비밀편지 열어보기">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="ko_KR">
+  <meta property="og:url" content="https://gkdbs1249.github.io/surprise-letter/">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="도착한 비밀편지 열어보기">
+  <meta name="twitter:description" content="도착한 비밀편지 열어보기">
+  <title>도착한 비밀편지 열어보기</title>
   <link rel="stylesheet" href="./styles.css">
 </head>
 <body>
@@ -47,6 +55,8 @@
 
       <section id="share-result" class="share-result" aria-live="polite" hidden>
         <p>편지가 봉투에 담겼어요.</p>
+        <button id="share-native" class="share-native" type="button">SNS로 공유하기</button>
+        <small class="copy-label">또는 링크 직접 복사</small>
         <div class="share-row">
           <input id="share-link" aria-label="생성된 편지 링크" readonly>
           <button id="copy-link" type="button">복사</button>

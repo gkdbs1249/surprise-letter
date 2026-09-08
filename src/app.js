@@ -24,7 +24,7 @@ function renderHistory() {
   const items = loadHistory();
   const section = $('#history-section');
   section.hidden = items.length === 0;
-  $('#history-list').replaceChildren(...items.map(item => {
+  $('#history-list').replaceChildren(...items.map((item, index) => {
     const li = document.createElement('li');
     const link = document.createElement('a');
     const label = document.createElement('strong');
@@ -35,7 +35,13 @@ function renderHistory() {
     label.textContent = `${item.recipient}에게 보낸 편지`;
     action.textContent = '열어보기 →';
     link.append(label, action);
-    li.append(link);
+    const remove = document.createElement('button');
+    remove.type = 'button';
+    remove.className = 'history-delete';
+    remove.dataset.historyIndex = String(index);
+    remove.setAttribute('aria-label', `${item.recipient}에게 보낸 편지 삭제`);
+    remove.textContent = '×';
+    li.append(link, remove);
     return li;
   }));
 }
@@ -113,6 +119,32 @@ $('#copy-link').addEventListener('click', async event => {
   }
   event.currentTarget.textContent = '복사됨';
   setTimeout(() => { event.currentTarget.textContent = '복사'; }, 1400);
+});
+
+$('#share-native').addEventListener('click', async event => {
+  const payload = {
+    title: '도착한 비밀편지 열어보기',
+    text: '도착한 비밀편지 열어보기',
+    url: $('#share-link').value,
+  };
+  if (navigator.share) {
+    try { await navigator.share(payload); }
+    catch (error) { if (error.name !== 'AbortError') throw error; }
+    return;
+  }
+  try { await navigator.clipboard.writeText(payload.url); }
+  catch { $('#share-link').select(); document.execCommand('copy'); }
+  event.currentTarget.textContent = '공유 링크 복사됨';
+  setTimeout(() => { event.currentTarget.textContent = 'SNS로 공유하기'; }, 1400);
+});
+
+$('#history-list').addEventListener('click', event => {
+  const button = event.target.closest('[data-history-index]');
+  if (!button) return;
+  const items = loadHistory();
+  items.splice(Number(button.dataset.historyIndex), 1);
+  saveHistory(items);
+  renderHistory();
 });
 
 addEventListener('hashchange', route);

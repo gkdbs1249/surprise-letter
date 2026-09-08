@@ -9,6 +9,7 @@ await page.getByLabel('받는 사람').fill('하윤');
 await page.getByLabel('보내는 사람').fill('제권');
 await page.getByLabel('편지 내용').fill('오늘도 고마워.\n우리의 모든 날이 다정하기를 바라!');
 await page.getByRole('button', { name: '편지 링크 만들기' }).click();
+await page.screenshot({ path: 'qa-share-result-mobile.png', fullPage: true });
 const url = await page.locator('#share-link').inputValue();
 const recipient = await mobile.newPage();
 await recipient.goto(url);
