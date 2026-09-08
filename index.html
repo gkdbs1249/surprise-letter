@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#8d4f62">
+  <meta name="description" content="봉투를 열어 마음을 전하는 서프라이즈 편지">
+  <title>비밀 우체통 · 서프라이즈 편지</title>
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <main id="creator-view" class="creator-shell" hidden>
+    <section class="creator-card" aria-labelledby="creator-title">
+      <header class="creator-heading">
+        <p class="eyebrow">SECRET POST</p>
+        <h1 id="creator-title">서프라이즈 편지 만들기</h1>
+        <p>마음을 적으면, 봉투 속에 담긴 나만의 링크가 만들어져요.</p>
+      </header>
+
+      <form id="letter-form">
+        <div class="name-fields">
+          <label>받는 사람
+            <input name="recipient" maxlength="40" placeholder="예: 하윤" required>
+          </label>
+          <label>보내는 사람
+            <input name="sender" maxlength="40" placeholder="예: 제권" required>
+          </label>
+        </div>
+        <label>편지 내용
+          <textarea name="message" maxlength="3000" rows="9" placeholder="전하고 싶은 마음을 적어주세요." required></textarea>
+        </label>
+        <fieldset class="theme-picker">
+          <legend>편지 색상</legend>
+          <label><input type="radio" name="theme" value="rose" checked><span class="swatch rose"></span>장미</label>
+          <label><input type="radio" name="theme" value="sage"><span class="swatch sage"></span>세이지</label>
+          <label><input type="radio" name="theme" value="night"><span class="swatch night"></span>밤하늘</label>
+        </fieldset>
+        <p id="form-error" class="form-error" role="alert" hidden></p>
+        <button class="primary" type="submit">편지 링크 만들기</button>
+      </form>
+
+      <section id="share-result" class="share-result" aria-live="polite" hidden>
+        <p>편지가 봉투에 담겼어요.</p>
+        <div class="share-row">
+          <input id="share-link" aria-label="생성된 편지 링크" readonly>
+          <button id="copy-link" type="button">복사</button>
+        </div>
+        <a id="preview-link" class="secondary" target="_blank" rel="noopener">받는 화면 미리보기</a>
+      </section>
+    </section>
+
+    <section id="history-section" class="history-card" aria-labelledby="history-title" hidden>
+      <div>
+        <p class="eyebrow">MY LETTERS</p>
+        <h2 id="history-title">내가 만든 편지</h2>
+      </div>
+      <ul id="history-list"></ul>
+      <p class="privacy-note">이 목록은 이 기기에만 저장돼요. 편지 내용은 링크의 일부로 전달됩니다.</p>
+    </section>
+  </main>
+
+  <main id="recipient-view" class="recipient-shell" hidden>
+    <p id="delivery-label" class="delivery-label"></p>
+    <div id="letter-stage" class="letter-stage">
+      <article id="letter-sheet" class="letter-sheet" hidden>
+        <p class="letter-to"><span id="letter-recipient"></span>에게</p>
+        <p id="letter-message" class="letter-message"></p>
+        <p class="letter-from">마음을 담아, <strong id="letter-sender"></strong></p>
+      </article>
+      <button id="envelope" class="envelope" type="button" aria-label="편지봉투 열기" aria-expanded="false">
+        <span class="envelope-back" aria-hidden="true"></span>
+        <span class="envelope-flap" aria-hidden="true"></span>
+        <span class="envelope-front-left" aria-hidden="true"></span>
+        <span class="envelope-front-right" aria-hidden="true"></span>
+        <span class="wax-seal" aria-hidden="true">♥</span>
+      </button>
+    </div>
+    <p id="tap-hint" class="tap-hint">봉투를 눌러 열어보세요</p>
+  </main>
+
+  <main id="error-view" class="error-shell" hidden>
+    <section>
+      <span aria-hidden="true">✉</span>
+      <h1>편지를 열 수 없어요</h1>
+      <p>링크가 잘렸거나 올바르지 않은 것 같아요.</p>
+      <a href="./">새 편지 만들기</a>
+    </section>
+  </main>
+
+  <script type="module" src="./src/app.js"></script>
+</body>
+</html>

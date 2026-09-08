@@ -1,0 +1,13 @@
+{
+  "name": "surprise-letter",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test tests/core.test.mjs",
+    "test:e2e": "playwright test tests/e2e.spec.mjs --workers=1"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.55.0"
+  }
+}

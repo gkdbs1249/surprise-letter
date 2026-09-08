@@ -1,0 +1,24 @@
+import { chromium } from '@playwright/test';
+
+const browser = await chromium.launch({ headless: true });
+const mobile = await browser.newContext({ viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true });
+const page = await mobile.newPage();
+await page.goto('http://127.0.0.1:43127');
+await page.screenshot({ path: 'qa-creator-mobile.png', fullPage: true });
+await page.getByLabel('받는 사람').fill('하윤');
+await page.getByLabel('보내는 사람').fill('제권');
+await page.getByLabel('편지 내용').fill('오늘도 고마워.\n우리의 모든 날이 다정하기를 바라!');
+await page.getByRole('button', { name: '편지 링크 만들기' }).click();
+const url = await page.locator('#share-link').inputValue();
+const recipient = await mobile.newPage();
+await recipient.goto(url);
+await recipient.screenshot({ path: 'qa-envelope-mobile.png' });
+await recipient.getByRole('button', { name: '편지봉투 열기' }).click();
+await recipient.waitForTimeout(1300);
+await recipient.screenshot({ path: 'qa-letter-open-mobile.png' });
+const desktop = await browser.newContext({ viewport: { width: 1440, height: 1000 } });
+const desktopPage = await desktop.newPage();
+await desktopPage.goto('http://127.0.0.1:43127');
+await desktopPage.screenshot({ path: 'qa-creator-desktop.png', fullPage: true });
+await browser.close();
+console.log('created 4 QA screenshots');
