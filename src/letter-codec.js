@@ -1,4 +1,5 @@
 const THEMES = new Set(['rose', 'sage', 'night']);
+const ALIGNMENTS = new Set(['left', 'center', 'right']);
 
 export function validateLetter(input = {}) {
   const message = String(input.message ?? '').trim();
@@ -8,6 +9,7 @@ export function validateLetter(input = {}) {
     sender: String(input.sender ?? '').trim() || '마음을 보낸 사람',
     message: message.slice(0, 3000),
     theme: THEMES.has(input.theme) ? input.theme : 'rose',
+    alignment: ALIGNMENTS.has(input.alignment) ? input.alignment : 'left',
   };
 }
 

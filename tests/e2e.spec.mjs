@@ -2,7 +2,7 @@ import { test, expect } from '@playwright/test';
 
 const baseUrl = process.env.BASE_URL || 'http://127.0.0.1:43127';
 
-test('creator makes multiple links and recipient opens an envelope', async ({ browser }) => {
+test('creator selects alignment and recipient opens a centered envelope letter', async ({ browser }) => {
   const context = await browser.newContext({ viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true });
   const page = await context.newPage();
   await page.goto(baseUrl);
@@ -13,6 +13,7 @@ test('creator makes multiple links and recipient opens an envelope', async ({ br
   await page.getByLabel('받는 사람').fill('하윤');
   await page.getByLabel('보내는 사람').fill('제권');
   await page.getByLabel('편지 내용').fill('오늘도 고마워.\n앞으로도 함께하자!');
+  await page.getByLabel('가운데 정렬').check();
   await page.getByRole('button', { name: '편지 링크 만들기' }).click();
 
   const link = await page.locator('#share-link').inputValue();
@@ -30,12 +31,30 @@ test('creator makes multiple links and recipient opens an envelope', async ({ br
   await expect(recipient.locator('#error-view')).toBeHidden();
   await expect(recipient.getByRole('button', { name: '편지봉투 열기' })).toBeVisible();
   await expect(recipient.locator('#letter-sheet')).toBeHidden();
+  const closedGap = await recipient.evaluate(() => {
+    const label = document.querySelector('#delivery-label').getBoundingClientRect();
+    const envelope = document.querySelector('#envelope').getBoundingClientRect();
+    return envelope.top - label.bottom;
+  });
+  expect(closedGap).toBeLessThanOrEqual(45);
+
   await recipient.getByRole('button', { name: '편지봉투 열기' }).click();
   await expect(recipient.locator('#letter-sheet')).toBeVisible();
   await expect(recipient.locator('#letter-sheet')).toContainText('하윤에게');
   await expect(recipient.locator('#letter-sheet')).toContainText('오늘도 고마워.');
   await expect(recipient.locator('#letter-sheet')).toContainText('제권');
+  await expect(recipient.locator('#letter-message')).toHaveCSS('text-align', 'center');
   await expect(recipient.locator('#envelope')).toHaveClass(/opened/);
+  await recipient.waitForTimeout(1100);
+  const openedLayout = await recipient.evaluate(() => {
+    const letter = document.querySelector('#letter-sheet').getBoundingClientRect();
+    const viewportCenter = innerHeight / 2;
+    const letterCenter = letter.top + letter.height / 2;
+    return { top: letter.top, bottom: letter.bottom, centerDelta: Math.abs(letterCenter - viewportCenter) };
+  });
+  expect(openedLayout.top).toBeGreaterThanOrEqual(16);
+  expect(openedLayout.bottom).toBeLessThanOrEqual(844 - 16);
+  expect(openedLayout.centerDelta).toBeLessThan(90);
   await context.close();
 });
 

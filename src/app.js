@@ -55,6 +55,7 @@ function renderRecipient(letter) {
   $('#delivery-label').textContent = `${letter.recipient}님께 도착한 편지`;
   $('#letter-recipient').textContent = letter.recipient;
   $('#letter-message').textContent = letter.message;
+  $('#letter-message').style.textAlign = letter.alignment;
   $('#letter-sender').textContent = letter.sender;
   const envelope = $('#envelope');
   const sheet = $('#letter-sheet');

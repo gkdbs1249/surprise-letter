@@ -35,6 +35,12 @@
           <label><input type="radio" name="theme" value="sage"><span class="swatch sage"></span>세이지</label>
           <label><input type="radio" name="theme" value="night"><span class="swatch night"></span>밤하늘</label>
         </fieldset>
+        <fieldset class="alignment-picker">
+          <legend>글 정렬</legend>
+          <label><input type="radio" name="alignment" value="left" checked><span aria-hidden="true">≡</span><b>왼쪽</b><span class="sr-only"> 정렬</span></label>
+          <label><input type="radio" name="alignment" value="center"><span aria-hidden="true">≡</span><b>가운데</b><span class="sr-only"> 정렬</span></label>
+          <label><input type="radio" name="alignment" value="right"><span aria-hidden="true">≡</span><b>오른쪽</b><span class="sr-only"> 정렬</span></label>
+        </fieldset>
         <p id="form-error" class="form-error" role="alert" hidden></p>
         <button class="primary" type="submit">편지 링크 만들기</button>
       </form>
@@ -60,22 +66,24 @@
   </main>
 
   <main id="recipient-view" class="recipient-shell" hidden>
-    <p id="delivery-label" class="delivery-label"></p>
-    <div id="letter-stage" class="letter-stage">
-      <article id="letter-sheet" class="letter-sheet" hidden>
-        <p class="letter-to"><span id="letter-recipient"></span>에게</p>
-        <p id="letter-message" class="letter-message"></p>
-        <p class="letter-from">마음을 담아, <strong id="letter-sender"></strong></p>
-      </article>
-      <button id="envelope" class="envelope" type="button" aria-label="편지봉투 열기" aria-expanded="false">
-        <span class="envelope-back" aria-hidden="true"></span>
-        <span class="envelope-flap" aria-hidden="true"></span>
-        <span class="envelope-front-left" aria-hidden="true"></span>
-        <span class="envelope-front-right" aria-hidden="true"></span>
-        <span class="wax-seal" aria-hidden="true">♥</span>
-      </button>
+    <div class="delivery-stack">
+      <p id="delivery-label" class="delivery-label"></p>
+      <div id="letter-stage" class="letter-stage">
+        <article id="letter-sheet" class="letter-sheet" hidden>
+          <p class="letter-to"><span id="letter-recipient"></span>에게</p>
+          <p id="letter-message" class="letter-message"></p>
+          <p class="letter-from">마음을 담아, <strong id="letter-sender"></strong></p>
+        </article>
+        <button id="envelope" class="envelope" type="button" aria-label="편지봉투 열기" aria-expanded="false">
+          <span class="envelope-back" aria-hidden="true"></span>
+          <span class="envelope-flap" aria-hidden="true"></span>
+          <span class="envelope-front-left" aria-hidden="true"></span>
+          <span class="envelope-front-right" aria-hidden="true"></span>
+          <span class="wax-seal" aria-hidden="true">♥</span>
+        </button>
+      </div>
+      <p id="tap-hint" class="tap-hint">봉투를 눌러 열어보세요</p>
     </div>
-    <p id="tap-hint" class="tap-hint">봉투를 눌러 열어보세요</p>
   </main>
 
   <main id="error-view" class="error-shell" hidden>
